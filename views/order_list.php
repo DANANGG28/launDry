@@ -118,7 +118,7 @@ $res_data = mysqli_query($koneksi, $q_data);
               <td>
                 <div class="d-flex gap-2">
                   <a href="order_detail.php?id=<?= $o['id'] ?>" class="btn btn-ghost btn-sm" title="Detail" style="padding:4px"><?= getIcon('eye', 'w-5 h-5') ?></a>
-                  <a href="order_edit.php?id=<?= $o['id'] ?>" class="btn btn-ghost btn-sm" title="Edit" style="padding:4px"><?= getIcon('pencil', 'w-5 h-5') ?></a>
+                  <a href="order_edit.php?id=<?= $o['id'] ?>&ref=order_list.php" class="btn btn-ghost btn-sm" title="Edit" style="padding:4px"><?= getIcon('pencil', 'w-5 h-5') ?></a>
                   <a href="?hapus=<?= $o['id'] ?>" class="btn btn-ghost btn-sm text-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus order <?= $o['kode_invoice'] ?>?');" style="padding:4px"><?= getIcon('trash', 'w-5 h-5') ?></a>
                 </div>
               </td>

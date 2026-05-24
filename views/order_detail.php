@@ -59,7 +59,7 @@ if ($currentIdx === false) $currentIdx = 0;
 <div class="d-flex justify-between align-center mb-5">
   <a href="order_list.php" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
   <div class="d-flex gap-2">
-    <a href="order_edit.php?id=<?= $order['id'] ?>" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('pencil', 'w-4 h-4') ?> Edit</a>
+    <a href="order_edit.php?id=<?= $order['id'] ?>&ref=order_detail.php?id=<?= $order['id'] ?>" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('pencil', 'w-4 h-4') ?> Edit</a>
     <a href="order_list.php?hapus=<?= $order['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus order <?= $order['kode_invoice'] ?>?');" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('trash', 'w-4 h-4') ?> Hapus</a>
   </div>
 </div>

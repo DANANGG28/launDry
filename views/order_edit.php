@@ -6,6 +6,19 @@ require_once '../templates/header.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+// Tentukan halaman asal untuk redirect setelah berhasil
+$ref = isset($_GET['ref']) ? $_GET['ref'] : "order_detail.php?id=$id";
+// Whitelist referrer yang diizinkan
+$allowed_ref_patterns = ['order_detail.php', 'order_list.php'];
+$ref_is_valid = false;
+foreach ($allowed_ref_patterns as $pattern) {
+    if (strpos($ref, $pattern) === 0) {
+        $ref_is_valid = true;
+        break;
+    }
+}
+if (!$ref_is_valid) $ref = "order_detail.php?id=$id";
+
 // Fetch Order
 $stmt = mysqli_prepare($koneksi, "SELECT * FROM orders WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $id);
@@ -89,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             mysqli_commit($koneksi);
-            redirect("order_detail.php?id=$id", "Order {$order['kode_invoice']} berhasil diperbarui!", 'success');
+            redirect($ref, "Order {$order['kode_invoice']} berhasil diperbarui!", 'success');
         } catch (Exception $e) {
             mysqli_rollback($koneksi);
             $_SESSION['flash_msg'] = 'Gagal memperbarui order: ' . $e->getMessage();
@@ -101,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div style="max-width:800px; margin: 0 auto;">
   <div class="mb-4">
-    <a href="order_detail.php?id=<?= $order['id'] ?>" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
+    <a href="<?= htmlspecialchars($ref) ?>" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
   </div>
 
   <div class="card">
@@ -109,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <span class="card-title" style="display:flex;align-items:center;gap:8px;"><?= getIcon('pencil', 'w-5 h-5') ?> Edit Order — <?= htmlspecialchars($order['kode_invoice']) ?></span>
   </div>
   <div class="card-body">
-    <form method="POST" id="edit-form">
+    <form method="POST" id="edit-form" action="?id=<?= $id ?>&ref=<?= urlencode($ref) ?>">
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Nama Pelanggan <span class="required">*</span></label>
@@ -204,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="divider"></div>
 
       <div class="d-flex gap-3" style="justify-content:flex-end">
-        <a href="order_detail.php?id=<?= $order['id'] ?>" class="btn btn-outline">Batal</a>
+        <a href="<?= htmlspecialchars($ref) ?>" class="btn btn-outline">Batal</a>
         <button type="submit" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('check', 'w-5 h-5') ?> Simpan Perubahan</button>
       </div>
     </form>

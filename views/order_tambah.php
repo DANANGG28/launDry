@@ -4,6 +4,12 @@ $activeMenu = 'order_add';
 $pageSubtitle = 'Buat transaksi laundry baru';
 require_once '../templates/header.php';
 
+// Simpan halaman asal agar bisa kembali setelah CRUD
+$ref = isset($_GET['ref']) ? $_GET['ref'] : 'order_list.php';
+// Whitelist referrer yang diizinkan (keamanan)
+$allowed_refs = ['order_list.php', 'dashboard.php'];
+if (!in_array($ref, $allowed_refs)) $ref = 'order_list.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = sanitize($koneksi, $_POST['nama_pelanggan']);
     $telp = sanitize($koneksi, $_POST['no_telepon']);
@@ -68,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             mysqli_commit($koneksi);
-            redirect('order_list.php', "Order $invoice berhasil dibuat!", 'success');
+            redirect($ref, "Order $invoice berhasil dibuat!", 'success');
         } catch (Exception $e) {
             mysqli_rollback($koneksi);
             $_SESSION['flash_msg'] = 'Gagal menyimpan order: ' . $e->getMessage();
@@ -80,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div style="max-width:800px; margin: 0 auto;">
   <div class="mb-4">
-    <a href="order_list.php" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
+    <a href="<?= htmlspecialchars($ref) ?>" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
   </div>
 
   <div class="card">
@@ -88,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <span class="card-title" style="display:flex;align-items:center;gap:8px;"><?= getIcon('document-text', 'w-5 h-5') ?> Formulir Order Baru</span>
   </div>
   <div class="card-body">
-    <form method="POST" id="order-form">
+    <form method="POST" id="order-form" action="?ref=<?= urlencode($ref) ?>">
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Nama Pelanggan <span class="required">*</span></label>
@@ -164,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="divider"></div>
 
       <div class="d-flex gap-3" style="justify-content:flex-end">
-        <a href="order_list.php" class="btn btn-outline">Batal</a>
+        <a href="<?= htmlspecialchars($ref) ?>" class="btn btn-outline">Batal</a>
         <button type="submit" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('check', 'w-5 h-5') ?> Simpan Order</button>
       </div>
     </form>

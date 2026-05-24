@@ -7,6 +7,11 @@ requireAdmin();
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $edit_mode = $id > 0;
 
+// Tentukan halaman asal untuk redirect setelah berhasil
+$ref = isset($_GET['ref']) ? $_GET['ref'] : 'user_list.php';
+$allowed_refs = ['user_list.php'];
+if (!in_array($ref, $allowed_refs)) $ref = 'user_list.php';
+
 $u_username = '';
 $u_nama = '';
 $u_role = 'petugas';
@@ -63,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (!isset($error)) {
             if (mysqli_stmt_execute($stmt)) {
-                redirect('user_list.php', $msg, 'success');
+                redirect($ref, $msg, 'success');
             } else {
                 $error = "Terjadi kesalahan sistem: " . mysqli_error($koneksi);
             }
@@ -74,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div style="max-width:600px; margin: 0 auto;">
   <div class="mb-4">
-    <a href="user_list.php" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
+    <a href="<?= htmlspecialchars($ref) ?>" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('chevron-left', 'w-4 h-4') ?> Kembali</a>
   </div>
 
   <div class="card">
@@ -88,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     <?php endif; ?>
     
-    <form method="POST">
+    <form method="POST" action="?id=<?= $id ?>&ref=<?= urlencode($ref) ?>">
       <div class="form-group">
         <label class="form-label">Nama Lengkap <span class="required">*</span></label>
         <input type="text" name="nama_lengkap" class="form-control" value="<?= htmlspecialchars($u_nama) ?>" required>
@@ -113,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       
       <div class="d-flex gap-3 mt-4" style="justify-content:flex-end">
-        <a href="user_list.php" class="btn btn-outline">Batal</a>
+        <a href="<?= htmlspecialchars($ref) ?>" class="btn btn-outline">Batal</a>
         <button type="submit" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:4px;"><?= getIcon('check', 'w-5 h-5') ?> Simpan</button>
       </div>
     </form>
