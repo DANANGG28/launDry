@@ -969,7 +969,10 @@ select.form-control { cursor: pointer; }
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px;
+  color: #fff;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 }
+.login-logo .logo-icon svg { width: 26px; height: 26px; }
 .login-logo .logo-text h1 {
   font-size: 1.4rem;
   font-weight: 800;
@@ -989,7 +992,11 @@ select.form-control { cursor: pointer; }
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+.login-heading h2 svg { width: 22px; height: 22px; color: var(--accent); }
 .login-heading p {
   font-size: 0.82rem;
   color: var(--text-secondary);
@@ -1032,7 +1039,9 @@ select.form-control { cursor: pointer; }
   display: flex; align-items: center; justify-content: center;
   font-size: 1rem;
   flex-shrink: 0;
+  color: #a5b4fc;
 }
+.login-feature .feat-icon svg { width: 20px; height: 20px; }
 
 .input-icon-wrap {
   position: relative;
@@ -1044,7 +1053,10 @@ select.form-control { cursor: pointer; }
   color: var(--text-muted);
   font-size: 1rem;
   pointer-events: none;
+  display: inline-flex;
+  align-items: center;
 }
+.input-icon-wrap .input-icon svg { width: 18px; height: 18px; }
 .input-icon-wrap input { padding-left: 38px; }
 
 .password-toggle {
@@ -1057,8 +1069,56 @@ select.form-control { cursor: pointer; }
   color: var(--text-muted);
   font-size: 1rem;
   transition: color var(--transition);
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
 }
+.password-toggle svg { width: 18px; height: 18px; }
 .password-toggle:hover { color: var(--text-primary); }
+
+/* SVG sizing inside login submit button */
+.login-form-wrap .btn svg { width: 18px; height: 18px; }
+
+/* ─── Login Demo Box ─────────────────────────────── */
+.login-demo {
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.login-demo-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.login-demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.login-demo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.login-demo-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.login-demo-cred {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* ─── Overlay on mobile ──────────────────────────── */
 .sidebar-overlay {
@@ -1092,7 +1152,8 @@ select.form-control { cursor: pointer; }
   .item-row > *:nth-child(3) { grid-column: 1 / -1; }
   .page-content { padding: 20px 16px; }
   .login-left { display: none; }
-  .login-right { width: 100%; }
+  .login-right { width: 100%; padding: 32px 24px; }
+  .login-form-wrap { max-width: 100%; }
   .filter-bar { flex-direction: column; align-items: stretch; }
   .filter-bar .search-box { min-width: auto; }
 }
@@ -1101,6 +1162,7 @@ select.form-control { cursor: pointer; }
   .stat-grid { grid-template-columns: 1fr; }
   .info-grid { grid-template-columns: 1fr; }
   .item-row { grid-template-columns: 1fr; }
+  .login-demo-grid { grid-template-columns: 1fr; }
 }
 
 /* ─── Utility ─────────────────────────────────────── */
@@ -1126,6 +1188,7 @@ select.form-control { cursor: pointer; }
 .mb-6 { margin-bottom: 24px; }
 .p-0 { padding: 0; }
 .w-full { width: 100%; }
+.is-hidden { display: none !important; }
 
 /* ─── Scrollbar ──────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }

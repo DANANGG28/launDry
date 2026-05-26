@@ -93,9 +93,9 @@ $initials = strtoupper(substr($user['nama_lengkap'], 0, 2));
         <?php endif; ?>
 
         <div class="nav-section-label" style="margin-top:16px">Laporan</div>
-        <a href="#" class="nav-item" onclick="alert('Fitur laporan akan segera hadir!'); return false;">
+        <a href="laporan_keuangan.php" class="nav-item <?= $activePage == 'laporan_keuangan' ? 'active' : '' ?>">
           <span class="nav-icon"><?= getIcon('chart-pie', 'w-5 h-5') ?></span>
-          <span>Ringkasan</span>
+          <span>Laporan Keuangan</span>
         </a>
       </nav>
 

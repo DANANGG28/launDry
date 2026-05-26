@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sistem Manajemen Laundry — Login untuk mengakses dashboard">
+  <title>Login — launDry</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <div class="login-page">
+    <!-- Left Illustration Side -->
+    <div class="login-left">
+      <div class="login-illustration">
+
+        <h2>Kelola Usaha Laundry Anda Dengan Mudah</h2>
+        <p>Sistem manajemen laundry modern yang membantu Anda mencatat transaksi, melacak status cucian, dan mengelola pembayaran secara efisien.</p>
+        <div class="login-features">
+          <div class="login-feature">
+            <div class="feat-icon">📋</div>
+            <span>Pencatatan order otomatis & terstruktur</span>
+          </div>
+          <div class="login-feature">
+            <div class="feat-icon">📊</div>
+            <span>Dashboard ringkasan real-time</span>
+          </div>
+          <div class="login-feature">
+            <div class="feat-icon">🔄</div>
+            <span>Pelacakan status cucian langkah demi langkah</span>
+          </div>
+          <div class="login-feature">
+            <div class="feat-icon">💰</div>
+            <span>Manajemen pembayaran yang transparan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form Side -->
+    <div class="login-right">
+      <div class="login-form-wrap">
+        <div class="login-logo">
+          <div class="logo-icon">🫧</div>
+          <div class="logo-text">
+            <h1>launDry</h1>
+            <p>Management System</p>
+          </div>
+        </div>
+
+        <div class="login-heading">
+          <h2>Selamat Datang! 👋</h2>
+          <p>Masuk ke akun Anda untuk melanjutkan</p>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" class="form-control" id="inp-username" placeholder="Masukkan username" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" class="form-control" id="inp-password" placeholder="Masukkan password" required autocomplete="current-password">
+              <button type="button" class="password-toggle" id="toggle-password" aria-label="Tampilkan password">👁️</button>
+            </div>
+          </div>
+
+
+          <div id="login-error" class="form-error mb-3 is-hidden" role="alert"></div>
+
+
+
+          <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+            Masuk <span aria-hidden="true">→</span>
+          </button>
+        </form>
+
+
+
+
+
+
+
+        <div class="login-demo">
+          <p class="login-demo-title">Demo Akun</p>
+          <div class="login-demo-grid">
+            <div class="login-demo-item">
+              <span class="login-demo-label">Admin</span>
+              <span class="login-demo-cred">admin / admin123</span>
+            </div>
+
+
+
+            <div class="login-demo-item">
+              <span class="login-demo-label">Petugas</span>
+              <span class="login-demo-cred">petugas1 / petugas123</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (LaundryData.isLoggedIn()) {
+      window.location.href = 'dashboard.html';
+    }
+
+    // Toggle password visibility
+    document.getElementById('toggle-password').addEventListener('click', () => {
+      const inp = document.getElementById('inp-password');
+      const btn = document.getElementById('toggle-password');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        inp.type = 'password';
+        btn.textContent = '👁️';
+      }
+    });
+
+    // Form submit
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('inp-username').value.trim();
+      const password = document.getElementById('inp-password').value;
+      const errDiv = document.getElementById('login-error');
+
+      if (!username || !password) {
+        errDiv.textContent = 'Username dan password wajib diisi!';
+
+        errDiv.classList.remove('is-hidden');
+        return;
+      }
+
+      const user = LaundryData.login(username, password);
+      if (user) {
+        window.location.href = 'dashboard.html';
+      } else {
+        errDiv.textContent = 'Username atau password salah! Silakan coba lagi.';
+
+        errDiv.classList.remove('is-hidden');
+        document.getElementById('inp-password').value = '';
+      }
+    });
+  </script>
+</body>
+</html>
